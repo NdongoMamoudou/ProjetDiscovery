@@ -1,17 +1,14 @@
-# Utiliser une image de base Python 3
-FROM python:3.9-slim
+FROM bde2020/spark-worker:3.3.0-hadoop3.3
 
-# Définir le répertoire de travail
 WORKDIR /app
 
-# Copier le fichier requirements-spark.txt dans le conteneur
 COPY requirements-spark.txt requirements-spark.txt
 
-# Installer les dépendances depuis requirements-spark.txt
 RUN pip install --no-cache-dir -r requirements-spark.txt
 
-# Copier tout le contenu du répertoire courant dans le conteneur
 COPY . .
 
-# # Commande pour démarrer le script
-# CMD ["python", "app.py"]
+# S’assurer que start-spark.sh a les bons droits
+RUN chmod +x /app/start-spark.sh
+
+CMD ["/bin/bash", "/app/start-spark.sh"]
